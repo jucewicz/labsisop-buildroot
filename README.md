@@ -24,6 +24,23 @@ As informações são obtidas novamente a cada requisição, permitindo que
 valores como tempo de atividade, uso da CPU, memória e processos representem
 o estado atual do sistema.
 
+## Inicialização do QEMU
+Para executar o sistema com a configuração de rede utilizada neste trabalho, o QEMU deve ser iniciado com o seguinte comando:
+```
+qemu-system-i386 \
+  --kernel output/images/bzImage \
+  --hda output/images/rootfs.ext2 \
+  --nographic \
+  --append "console=ttyS0 root=/dev/sda" \
+  -netdev user,id=net0,net=192.168.1.0/24,hostfwd=tcp:127.0.0.1:8080-192.168.1.10:8080 \
+  -device e1000,netdev=net0
+```
+A opção -netdev user cria uma rede virtual para o QEMU utilizando a sub-rede 192.168.1.0/24.
+
+A interface eth0 do sistema embarcado utiliza o endereço IP fixo 192.168.1.10.
+
+O parâmetro hostfwd redireciona a porta 8080 da máquina host para a porta 8080 do sistema executado no QEMU. Dessa forma, o endpoint pode ser acessado na máquina host através de http://127.0.0.1:8080/status.
+
 ![alt text](./screenshot1.png)
 
 ## Capturas de tela do endpoint `/status`
