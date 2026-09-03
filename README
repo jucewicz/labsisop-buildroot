@@ -24,17 +24,17 @@ As informações são obtidas novamente a cada requisição, permitindo que
 valores como tempo de atividade, uso da CPU, memória e processos representem
 o estado atual do sistema.
 
-![alt text](screenshot1.png)
+![alt text](./screenshot1.png)
 
 ## Capturas de tela do endpoint `/status`
 
 O endpoint `/status` retorna as informações do sistema em formato JSON.
 
-![alt text](screenshot4.png)
-![alt text](screenshot5.png)
-![alt text](screenshot6.png)
+![alt text](./screenshot4.png)
+![alt text](./screenshot5.png)
+![alt text](./screenshot6.png)
 
-![alt text](screenshot3.png)
+![alt text](./screenshot3.png)
 
 ## Obtenção das informações através de `/proc` e `/sys`
 
