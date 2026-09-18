@@ -2,31 +2,31 @@
 #include <linux/kernel.h>
 #include <sys/syscall.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 #define SYSCALL_SLEEPING_PROCESSES 386
 
 int main(void)
 {
-    char buf[4096];
+    pid_t buf[256];
     long ret;
-
-    printf("Invoking 'listSleepingProcesses' system call.\n");
+    int i;
 
     ret = syscall(
         SYSCALL_SLEEPING_PROCESSES,
         buf,
-        sizeof(buf)
+        256
     );
 
     if (ret >= 0) {
-        printf("Sleeping processes:\n\n");
-        printf("%s\n", buf);
+        printf("Processos em sleep: %ld\n", ret);
+
+        for (i = 0; i < ret; i++) {
+            printf("PID: %d\n", buf[i]);
+        }
     }
     else {
-        printf(
-            "System call 'listSleepingProcesses' failed: %ld\n",
-            ret
-        );
+        printf("Erro ao executar a syscall: %ld\n", ret);
     }
 
     return 0;

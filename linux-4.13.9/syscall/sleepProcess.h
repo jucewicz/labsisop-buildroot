@@ -1,1 +1,1 @@
-asmlinkage long sys_listSleepingProcesses(char __user *buf, int size);
+asmlinkage long sys_listSleepingProcesses(pid_t __user *buf, int size);

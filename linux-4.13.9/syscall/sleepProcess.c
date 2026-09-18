@@ -6,72 +6,39 @@
 
 #include "sleepProcess.h"
 
-asmlinkage long sys_listSleepingProcesses(char __user *buf, int size)
+asmlinkage long sys_listSleepingProcesses(pid_t __user *buf, int size)
 {
     struct task_struct *proces;
-    char *kbuf;
-    int offset = 0;
-    int written;
+    pid_t kbuf[256];
+    int count = 0;
     int ret;
+
+    if (size > 256)
+        size = 256;
 
     if (size <= 0)
         return -1;
 
-    /*
-     * Aloca um buffer dentro do kernel.
-     * Esse buffer será usado para montar a lista de processos.
-     */
-    kbuf = kmalloc(size, GFP_KERNEL);
-
-    if (kbuf == NULL)
-        return -1;
-
-    /*
-     * Percorre todos os processos existentes no sistema.
-     */
     for_each_process(proces) {
-
-        /*
-         * Verifica se o processo está em sleep.
-         */
         if (proces->state == TASK_INTERRUPTIBLE ||
             proces->state == TASK_UNINTERRUPTIBLE) {
 
-            /*
-             * Adiciona as informações do processo
-             * na próxima posição livre de kbuf.
-             */
-            written = scnprintf(
-                kbuf + offset,
-                size - offset,
-                "Process: %s\n"
-                "PID: %ld\n"
-                "State: %ld\n\n",
-                proces->comm,
-                (long)task_pid_nr(proces),
-                (long)proces->state
-            );
-
-            offset += written;
-
-            /*
-             * Buffer cheio.
-             */
-            if (offset >= size - 1)
+            if (count >= size)
                 break;
+
+            kbuf[count] = task_pid_nr(proces);
+            count++;
         }
     }
 
-    /*
-     * Copia os dados do espaço do kernel
-     * para o buffer da aplicação.
-     */
-    ret = copy_to_user(buf, kbuf, offset + 1);
-
-    kfree(kbuf);
+    ret = copy_to_user(
+        buf,
+        kbuf,
+        count * sizeof(pid_t)
+    );
 
     if (ret != 0)
         return -1;
 
-    return offset;
+    return count;
 }
