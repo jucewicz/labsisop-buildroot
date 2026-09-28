@@ -30,9 +30,10 @@ Para executar o sistema com a configuração de rede utilizada neste trabalho, o
 qemu-system-i386 \
   --kernel output/images/bzImage \
   --hda output/images/rootfs.ext2 \
+  --hdb sdb.bin \
   --nographic \
   --append "console=ttyS0 root=/dev/sda" \
-  -netdev user,id=net0,net=192.168.1.0/24,hostfwd=tcp:127.0.0.1:8080-192.168.1.10:8080 \
+  -netdev user,id=net0,net=192.168.1.0/24,hostfwd=tcp:127.0.0.1:2223-192.168.1.15:22 \
   -device e1000,netdev=net0
 ```
 A opção -netdev user cria uma rede virtual para o QEMU utilizando a sub-rede 192.168.1.0/24.

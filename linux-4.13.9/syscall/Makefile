@@ -1,1 +1,1 @@
-obj-y:=processInfo.o sleepProcess.o
+obj-y:=processInfo.o sleepProcess.o printMessage.o

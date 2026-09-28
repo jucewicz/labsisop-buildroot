@@ -21,3 +21,11 @@ COMPILER=$BUILDROOT_DIR/output/host/bin/i686-buildroot-linux-gnu-gcc
 $COMPILER \
     -o $BUILDROOT_DIR/output/target/bin/sleep_test \
     $BUILDROOT_DIR/custom-scripts/sleep_test.c
+
+# Compile printMessage_test.c
+BUILDROOT_DIR=$BASE_DIR/..
+COMPILER=$BUILDROOT_DIR/output/host/bin/i686-buildroot-linux-gnu-gcc
+
+$COMPILER \
+    -o $BUILDROOT_DIR/output/target/bin/printMessage_test \
+    $BUILDROOT_DIR/custom-scripts/printMessage_test.c
