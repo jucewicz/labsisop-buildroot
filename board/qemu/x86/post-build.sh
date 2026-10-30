@@ -29,3 +29,6 @@ COMPILER=$BUILDROOT_DIR/output/host/bin/i686-buildroot-linux-gnu-gcc
 $COMPILER \
     -o $BUILDROOT_DIR/output/target/bin/printMessage_test \
     $BUILDROOT_DIR/custom-scripts/printMessage_test.c
+
+# Copy custom fstab
+cp "$BUILDROOT_DIR/custom-scripts/fstab" "$TARGET_DIR/etc/fstab"
