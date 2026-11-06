@@ -1,7 +1,14 @@
+#define _GNU_SOURCE
+
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
+
+#ifndef SCHED_LOW_IDLE
+#define SCHED_LOW_IDLE 7
+#endif
 
 char* buffer;
 char* ptr;
@@ -50,8 +57,20 @@ void summarize(long size, int nthreads)
 		printf("%c = %d\n", (char)('A' + i), count[i]);
 }
 
+int parse_policy(char *name)
+{
+	if (strcmp(name, "SCHED_LOW_IDLE") == 0) return SCHED_LOW_IDLE;
+	if (strcmp(name, "SCHED_IDLE") == 0)     return SCHED_IDLE;
+	if (strcmp(name, "SCHED_FIFO") == 0)     return SCHED_FIFO;
+	if (strcmp(name, "SCHED_RR") == 0)       return SCHED_RR;
+	if (strcmp(name, "SCHED_OTHER") == 0)    return SCHED_OTHER;
+	return -1;   // nome desconhecido
+}
+
 int main(int argc, char **argv)
 {
+	int policy, ret;
+	struct sched_param param;
 	long size;
 	int nthreads;
 	char *policy_name;
@@ -64,6 +83,12 @@ int main(int argc, char **argv)
 	size = atol(argv[1]);
 	nthreads = atoi(argv[2]);
 	policy_name = argv[3];
+
+	policy = parse_policy(policy_name);
+	if (policy < 0) {
+		printf("erro: politica desconhecida: %s\n", policy_name);
+		return 1;
+	}
 
 	if (nthreads < 1 || nthreads > 26) {
 		printf("erro: num_threads deve estar entre 1 e 26\n");
@@ -87,8 +112,18 @@ int main(int argc, char **argv)
 	pthread_t threads[nthreads];
 	long i;
 
-	for (i = 0; i < nthreads; i++)
+	param.sched_priority = (policy == SCHED_FIFO || policy == SCHED_RR) ? 1 : 0;
+
+	for (i = 0; i < nthreads; i++) {
 		pthread_create(&threads[i], NULL, worker, (void *)i);
+
+		ret = pthread_setschedparam(threads[i], policy, &param);
+		if (ret != 0) {
+			printf("erro ao aplicar %s: %s\n", policy_name, strerror(ret));
+			return 1;
+		}
+	}
+
 
 	pthread_barrier_wait(&start);   // main chega por último e libera a largada
 
