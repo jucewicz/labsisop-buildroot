@@ -32,9 +32,3 @@ $COMPILER \
 
 # Copy custom fstab
 cp "$BUILDROOT_DIR/custom-scripts/fstab" "$TARGET_DIR/etc/fstab"
-
-# Compile sched_profiler.c
-$COMPILER \
-    -o $BUILDROOT_DIR/output/target/bin/sched_profiler \
-    $BUILDROOT_DIR/custom-scripts/sched_profiler.c \
-    -lpthread
