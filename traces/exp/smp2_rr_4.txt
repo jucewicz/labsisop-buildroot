@@ -1,0 +1,33 @@
+buffer = 5000000, threads = 4, cpus = 2
+A: SCHED_RR prio 1
+B: SCHED_RR prio 1
+C: SCHED_RR prio 1
+D: SCHED_RR prio 1
+ABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB...
+
+Resumo:
+ABABABABABABABABABABABABABCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCB...
+
+Escalonamentos:
+A = 745672
+B = 770556
+C = 912563
+D = 747631
+
+Escritas no buffer:
+A = 1226884 (24.5%)
+B = 1208319 (24.2%)
+C = 1392735 (27.9%)
+D = 1172062 (23.4%)
+
+Tempo de CPU:
+A = 3743.7 ms (24.6%)
+B = 3662.1 ms (24.1%)
+C = 4301.6 ms (28.3%)
+D = 3484.8 ms (22.9%)
+
+Trocas de contexto (voluntarias / involuntarias):
+A = 3948 / 26
+B = 3945 / 31
+C = 1705 / 28
+D = 4011 / 21

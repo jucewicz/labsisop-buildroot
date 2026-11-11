@@ -1359,7 +1359,7 @@ static inline void finish_lock_switch(struct rq *rq, struct task_struct *prev)
 #define WEIGHT_IDLEPRIO                3
 #define WMULT_IDLEPRIO         1431655765
 #define WEIGHT_LOW_IDLEPRIO                1
-#define WMULT_LOW_IDLEPRIO         1431655765
+#define WMULT_LOW_IDLEPRIO         4294967295U /* 2^32/1, saturado em u32 (= WMULT_CONST) */
 
 extern const int sched_prio_to_weight[40];
 extern const u32 sched_prio_to_wmult[40];

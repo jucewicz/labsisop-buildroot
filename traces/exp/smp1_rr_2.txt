@@ -1,0 +1,23 @@
+buffer = 5000000, threads = 2, cpus = 1
+A: SCHED_RR prio 1
+B: SCHED_RR prio 1
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...
+
+Resumo:
+ABABABABABAB
+
+Escalonamentos:
+A = 6
+B = 6
+
+Escritas no buffer:
+A = 2548779 (51.0%)
+B = 2451221 (49.0%)
+
+Tempo de CPU:
+A = 1139.7 ms (61.7%)
+B = 706.9 ms (38.3%)
+
+Trocas de contexto (voluntarias / involuntarias):
+A = 2 / 10
+B = 5 / 7

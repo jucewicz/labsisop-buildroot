@@ -38,3 +38,7 @@ $COMPILER \
     -o $BUILDROOT_DIR/output/target/bin/sched_profiler \
     $BUILDROOT_DIR/custom-scripts/sched_profiler.c \
     -lpthread
+
+# Script dos experimentos do sched_profiler
+cp $BUILDROOT_DIR/custom-scripts/run_experiments.sh $TARGET_DIR/usr/bin/run_experiments.sh
+chmod +x $TARGET_DIR/usr/bin/run_experiments.sh

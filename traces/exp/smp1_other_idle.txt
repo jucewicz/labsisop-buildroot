@@ -1,0 +1,23 @@
+buffer = 5000000, threads = 2, cpus = 1
+A: SCHED_OTHER prio 0
+B: SCHED_IDLE prio 0
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...
+
+Resumo:
+ABA
+
+Escalonamentos:
+A = 2
+B = 1
+
+Escritas no buffer:
+A = 4987564 (99.8%)
+B = 12436 (0.2%)
+
+Tempo de CPU:
+A = 1262.7 ms (99.7%)
+B = 4.2 ms (0.3%)
+
+Trocas de contexto (voluntarias / involuntarias):
+A = 0 / 10
+B = 1 / 1
