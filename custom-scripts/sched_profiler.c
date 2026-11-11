@@ -41,10 +41,12 @@ void *worker(void *arg)
 void summarize(long size, int nthreads)
 {
 	int count[26] = { 0 };   // um contador por letra, todos começando em 0
+	long written[26] = { 0 }; 
 	char prev = 0;           // a letra anterior (0 = nenhuma ainda)
 	long i;
 
 	for (i = 0; i < size; i++) {
+		written[buffer[i] - 'A']++;       
 		if (buffer[i] != prev) {          // mudou de letra = começou um bloco novo
 			printf("%c", buffer[i]);       // imprime a letra uma vez
 			count[buffer[i] - 'A']++;      // conta mais um bloco para essa thread
@@ -53,9 +55,15 @@ void summarize(long size, int nthreads)
 	}
 	printf("\n");
 
+	printf("\nEscalonamentos:\n");                          
 	for (i = 0; i < nthreads; i++)
 		printf("%c = %d\n", (char)('A' + i), count[i]);
+
+	printf("\nEscritas no buffer:\n");                       
+	for (i = 0; i < nthreads; i++)                           
+		printf("%c = %ld (%.1f%%)\n", (char)('A' + i), written[i], 100.0 * written[i] / size);  // NOVO
 }
+
 
 int parse_policy(char *name)
 {
